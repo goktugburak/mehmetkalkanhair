@@ -177,15 +177,47 @@
 
     .admin-service-tag {
       display: inline-block;
-      font-size: 12px;
-      background: rgba(198,40,40,0.08);
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(198,40,40,0.1);
       color: #C62828;
-      padding: 3px 10px;
-      border-radius: 12px;
-      margin: 2px 4px 2px 0;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin: 2px 6px 2px 0;
+      border: 1px solid rgba(198,40,40,0.15);
+      letter-spacing: 0.3px;
     }
-    .admin-date { white-space: nowrap; }
-    .admin-time { white-space: nowrap; font-weight: 500; }
+    .admin-date {
+      white-space: nowrap;
+      font-weight: 500;
+    }
+    .admin-time {
+      white-space: nowrap;
+      font-weight: 600;
+      color: #C62828;
+    }
+    .admin-muted { color: #88807a; font-size: 12px; }
+
+    /* Delete button */
+    .admin-delete {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid rgba(198,40,40,0.2);
+      background: rgba(198,40,40,0.06);
+      color: #C62828;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.25s;
+    }
+    .admin-delete:hover {
+      background: rgba(198,40,40,0.2);
+      border-color: #C62828;
+    }
+    .admin-delete:active { transform: scale(0.92); }
 
     /* Empty */
     .admin-empty {
@@ -245,14 +277,55 @@
       color: #88807a;
     }
 
-    @media (max-width: 500px) {
+    .admin-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+    .admin-table tbody tr:active { background: rgba(198,40,40,0.06); }
+
+    @media (max-width: 640px) {
       .admin-stats { grid-template-columns: 1fr 1fr; gap: 8px; padding: 16px; }
-      .admin-content { padding: 0 16px 60px; }
-      .admin-table th, .admin-table td { padding: 12px 12px; font-size: 13px; }
-      .admin-table th:nth-child(4), .admin-table td:nth-child(4) { display: none; }
-    }
-    @media (max-width: 380px) {
-      .admin-table th:nth-child(1), .admin-table td:nth-child(1) { display: none; }
+
+      .admin-table-wrap { background: transparent; border: none; }
+
+      .admin-table,
+      .admin-table thead,
+      .admin-table tbody,
+      .admin-table tr,
+      .admin-table td { display: block; }
+
+      .admin-table thead { display: none; }
+
+      .admin-table tbody tr {
+        background: #111;
+        border: 1px solid #2a2725;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 12px;
+        position: relative;
+      }
+      .admin-table tbody tr:last-child { margin-bottom: 0; }
+
+      .admin-table td {
+        padding: 6px 0;
+        border: none;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .admin-table td:last-child { padding-bottom: 0; }
+
+      .admin-table td::before {
+        content: attr(data-label);
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #88807a;
+        min-width: 72px;
+        flex-shrink: 0;
+      }
+
+      .admin-table td.admin-actions-cell::before { content: 'İşlem'; }
+      .admin-table td.admin-actions-cell { padding-top: 10px; margin-top: 10px; border-top: 1px solid rgba(42,39,37,0.5); justify-content: flex-end; }
     }
   </style>
 </head>
@@ -275,6 +348,16 @@
     const db = firebase.firestore();
 
     const PASSWORD = 'kalkan';
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      var parts = dateStr.split('-');
+      if (parts.length !== 3) return dateStr;
+      var d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+      var dayNames = ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+      var monthNames = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+      return parseInt(parts[2]) + ' ' + monthNames[d.getMonth()] + ' ' + dayNames[d.getDay()];
+    }
 
     function renderApp(authenticated) {
       const app = document.getElementById('app');
@@ -373,10 +456,12 @@
             '<th>Tarih</th>' +
             '<th>Saat</th>' +
             '<th>Hizmet</th>' +
+            '<th>İşlem</th>' +
             '</tr></thead><tbody>';
 
           docs.forEach(function(item) {
             var d = item.data;
+            var docId = item.id;
             var fullName = (d.ad || '') + ' ' + (d.soyad || '');
             var phone = d.telefon || '';
             var date = d.tarih || '';
@@ -396,24 +481,45 @@
             }
 
             var telHref = phone.replace(/[^0-9+]/g, '');
+            var formattedDate = formatDate(date);
 
             html += '<tr>' +
-              '<td><strong>' + fullName + '</strong></td>' +
-              '<td class="admin-phone"><a href="tel:' + telHref + '"><i class="fa-solid fa-phone"></i>' + phone + '</a></td>' +
-              '<td class="admin-date">' + date + '</td>' +
-              '<td class="admin-time">' + time + '</td>' +
-              '<td>' + serviceHtml + '</td>' +
+              '<td data-label="Müşteri"><strong>' + fullName + '</strong></td>' +
+              '<td class="admin-phone" data-label="Telefon"><a href="tel:' + telHref + '"><i class="fa-solid fa-phone"></i>' + phone + '</a></td>' +
+              '<td class="admin-date" data-label="Tarih">' + formattedDate + '<br><span class="admin-muted">' + date + '</span></td>' +
+              '<td class="admin-time" data-label="Saat">' + time + '</td>' +
+              '<td data-label="Hizmet">' + serviceHtml + '</td>' +
+              '<td class="admin-actions-cell" data-label="İşlem"><button class="admin-delete" data-id="' + docId + '" title="Sil"><i class="fa-solid fa-trash-can"></i></button></td>' +
               '</tr>';
           });
 
           html += '</tbody></table>';
           container.innerHTML = html;
           updateStats({ total: docs.length, today: todayCount, upcoming: upcomingCount });
+
+          // Delete handlers
+          container.querySelectorAll('.admin-delete').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              var docId = this.dataset.id;
+              deleteAppointment(docId);
+            });
+          });
         })
         .catch(function(error) {
           console.error('Firebase hatası:', error);
           container.innerHTML = '<div class="admin-empty"><i class="fa-solid fa-triangle-exclamation"></i><p>Veriler yüklenirken hata oluştu.</p></div>';
         });
+    }
+
+    function deleteAppointment(docId) {
+      if (!confirm('Bu randevuyu iptal etmek istediğinize emin misiniz?')) return;
+
+      db.collection('randevular').doc(docId).delete().then(function() {
+        loadAppointments();
+      }).catch(function(error) {
+        console.error('Silme hatası:', error);
+        alert('Randevu silinirken hata oluştu.');
+      });
     }
 
     function updateStats(counts) {
