@@ -1456,6 +1456,9 @@
   </a>
 
   <!-- ===== SCRIPTS ===== -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Elements
@@ -1562,6 +1565,18 @@
         cardObserver.observe(card);
       });
 
+      // ===== FIREBASE INIT =====
+      var firebaseConfig = {
+        apiKey: "AIzaSyBhYMiG1x6AkvMGVnmeQpeGZrd-acgqE7Q",
+        authDomain: "randevu-3e681.firebaseapp.com",
+        projectId: "randevu-3e681",
+        storageBucket: "randevu-3e681.firebasestorage.app",
+        messagingSenderId: "984299042755",
+        appId: "1:984299042755:web:c789dc4536379bcacd2f76"
+      };
+      firebase.initializeApp(firebaseConfig);
+      var db = firebase.firestore();
+
       // ===== APPOINTMENT MODULE =====
       (function() {
         // State
@@ -1575,7 +1590,6 @@
         };
 
         var currentStep = 1;
-        var whatsappNum = '905303667322';
         var servicesData = [
           { name: 'Saç Tıraşı', price: 600 },
           { name: 'Saç + Sakal', price: 700 },
@@ -1836,8 +1850,7 @@
             '<div class="app-summary-row"><span class="label">Telefon</span><span class="value">' + state.phone + '</span></div>';
         }
 
-        function sendWhatsApp() {
-          var servicesStr = state.services.join(', ');
+        function saveAppointment() {
           var total = 0;
           state.services.forEach(function(svc) {
             servicesData.forEach(function(d) {
@@ -1845,15 +1858,42 @@
             });
           });
 
-          var message = 'Merhaba, web sitenizden randevu talebim var. ' +
-            'Adım: ' + state.name + ' ' + state.surname + '. ' +
-            'Seçtiğim Hizmet(ler): ' + servicesStr + '. ' +
-            'Toplam Tutar: ' + total + 'TL. ' +
-            'Randevu Tarihi ve Saati: ' + state.date + ' - ' + state.time + '. ' +
-            'Telefon numaram: ' + state.phone + '.';
-
-          var url = 'https://wa.me/' + whatsappNum + '?text=' + encodeURIComponent(message);
-          window.open(url, '_blank');
+          db.collection('randevular').add({
+            ad: state.name,
+            soyad: state.surname,
+            telefon: state.phone,
+            tarih: state.date,
+            saat: state.time,
+            hizmetler: state.services,
+            toplamTutar: total,
+            olusturulma: new Date().toISOString()
+          }).then(function() {
+            Swal.fire({
+              icon: 'success',
+              title: 'Randevunuz Alındı!',
+              html: '<span style="font-size:16px;color:#555">' +
+                    '<strong>' + state.name + ' ' + state.surname + '</strong>, randevunuz başarıyla oluşturuldu.<br><br>' +
+                    '📅 ' + state.date + '<br>' +
+                    '⏰ ' + state.time + '<br>' +
+                    '✂️ ' + state.services.join(', ') + '<br>' +
+                    '💰 ' + total + ' TL' +
+                    '</span>',
+              confirmButtonText: 'Tamam',
+              confirmButtonColor: '#C62828',
+              background: '#fafafa',
+              customClass: { popup: 'swal-popup' }
+            }).then(function() {
+              window.location.reload();
+            });
+          }).catch(function(error) {
+            console.error('Firebase hatası:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Hata!',
+              text: 'Randevu kaydedilirken bir sorun oluştu. Lütfen tekrar deneyin.',
+              confirmButtonColor: '#C62828'
+            });
+          });
         }
 
         // ----- Event Listeners -----
@@ -1904,11 +1944,7 @@
         if (confirmBtn) {
           confirmBtn.addEventListener('click', function() {
             if (!validateStep3()) return;
-            showSummary();
-            // Small delay to show summary then send
-            setTimeout(function() {
-              sendWhatsApp();
-            }, 600);
+            saveAppointment();
           });
         }
       })();
