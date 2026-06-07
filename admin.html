@@ -423,7 +423,13 @@
       const container = document.getElementById('tableBody');
       container.innerHTML = '<div class="admin-loading"><i class="fa-solid fa-spinner"></i><p>Randevular yükleniyor...</p></div>';
 
+      var today = new Date();
+      var todayStr = today.getFullYear() + '-' +
+        String(today.getMonth() + 1).padStart(2, '0') + '-' +
+        String(today.getDate()).padStart(2, '0');
+
       db.collection('randevular')
+        .where('tarih', '>=', todayStr)
         .orderBy('tarih', 'asc')
         .orderBy('saat', 'asc')
         .get()
@@ -438,11 +444,6 @@
             updateStats([]);
             return;
           }
-
-          var today = new Date();
-          var todayStr = today.getFullYear() + '-' +
-            String(today.getMonth() + 1).padStart(2, '0') + '-' +
-            String(today.getDate()).padStart(2, '0');
 
           var nowTime = String(today.getHours()).padStart(2, '0') + ':' + String(today.getMinutes()).padStart(2, '0');
 
