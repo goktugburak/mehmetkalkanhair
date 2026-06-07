@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Yönetim Paneli | Hair Art Mehmet Kalkan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: #f0ece4;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .admin-header {
+      background: #111;
+      border-bottom: 1px solid #2a2725;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .admin-logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .admin-logo-main {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #C62828;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .admin-logo-sub {
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #88807a;
+    }
+    .admin-header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .admin-badge {
+      background: rgba(198,40,40,0.12);
+      color: #C62828;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(198,40,40,0.2);
+    }
+    .admin-refresh {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid #2a2725;
+      background: transparent;
+      color: #88807a;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+    }
+    .admin-refresh:hover {
+      border-color: #C62828;
+      color: #C62828;
+    }
+    .admin-refresh.spinning i { animation: spin 0.6s linear; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Stats */
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 20px;
+    }
+    .admin-stat {
+      background: #111;
+      border: 1px solid #2a2725;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .admin-stat-val {
+      font-family: 'Oswald', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: #C62828;
+    }
+    .admin-stat-label {
+      font-size: 11px;
+      color: #88807a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* Content */
+    .admin-content {
+      padding: 0 20px 80px;
+    }
+    .admin-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      color: #f0ece4;
+    }
+    .admin-title span { color: #C62828; }
+
+    /* Table */
+    .admin-table-wrap {
+      background: #111;
+      border: 1px solid #2a2725;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .admin-table th {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #88807a;
+      text-align: left;
+      padding: 14px 16px;
+      border-bottom: 1px solid #2a2725;
+      white-space: nowrap;
+    }
+    .admin-table td {
+      font-size: 14px;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(42,39,37,0.4);
+      vertical-align: middle;
+    }
+    .admin-table tr:last-child td { border-bottom: none; }
+    .admin-table tbody tr { transition: 0.2s; }
+    .admin-table tbody tr:active { background: rgba(198,40,40,0.06); }
+
+    .admin-phone a {
+      color: #f0ece4;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .admin-phone a i {
+      font-size: 14px;
+      color: #22c55e;
+    }
+    .admin-phone a:active { color: #C62828; }
+
+    .admin-service-tag {
+      display: inline-block;
+      font-size: 12px;
+      background: rgba(198,40,40,0.08);
+      color: #C62828;
+      padding: 3px 10px;
+      border-radius: 12px;
+      margin: 2px 4px 2px 0;
+    }
+    .admin-date { white-space: nowrap; }
+    .admin-time { white-space: nowrap; font-weight: 500; }
+
+    /* Empty */
+    .admin-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: #88807a;
+    }
+    .admin-empty i {
+      font-size: 48px;
+      opacity: 0.2;
+      margin-bottom: 16px;
+    }
+    .admin-empty p { font-size: 15px; }
+
+    /* Loading */
+    .admin-loading {
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .admin-loading i {
+      font-size: 32px;
+      color: #C62828;
+      animation: spin 0.8s linear infinite;
+    }
+    .admin-loading p {
+      margin-top: 12px;
+      color: #88807a;
+      font-size: 14px;
+    }
+
+    /* Denied */
+    .denied {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .denied i {
+      font-size: 56px;
+      color: #C62828;
+      margin-bottom: 20px;
+      opacity: 0.6;
+    }
+    .denied h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 24px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .denied p {
+      font-size: 14px;
+      color: #88807a;
+    }
+
+    @media (max-width: 500px) {
+      .admin-stats { grid-template-columns: 1fr 1fr; gap: 8px; padding: 16px; }
+      .admin-content { padding: 0 16px 60px; }
+      .admin-table th, .admin-table td { padding: 12px 12px; font-size: 13px; }
+      .admin-table th:nth-child(4), .admin-table td:nth-child(4) { display: none; }
+    }
+    @media (max-width: 380px) {
+      .admin-table th:nth-child(1), .admin-table td:nth-child(1) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBhYMiG1x6AkvMGVnmeQpeGZrd-acgqE7Q",
+      authDomain: "randevu-3e681.firebaseapp.com",
+      projectId: "randevu-3e681",
+      storageBucket: "randevu-3e681.firebasestorage.app",
+      messagingSenderId: "984299042755",
+      appId: "1:984299042755:web:c789dc4536379bcacd2f76"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const PASSWORD = 'kalkan';
+
+    function renderApp(authenticated) {
+      const app = document.getElementById('app');
+
+      if (!authenticated) {
+        app.innerHTML = `
+          <div class="denied">
+            <i class="fa-solid fa-lock"></i>
+            <h1>Erişim Engellendi</h1>
+            <p>Yanlış şifre. Lütfen tekrar deneyin.</p>
+          </div>
+        `;
+        return;
+      }
+
+      app.innerHTML = `
+        <div class="admin-header">
+          <div class="admin-logo">
+            <span class="admin-logo-main">Hair Art</span>
+            <span class="admin-logo-sub">Mehmet Kalkan</span>
+          </div>
+          <div class="admin-header-right">
+            <span class="admin-badge">Yönetim</span>
+            <button class="admin-refresh" id="refreshBtn" title="Yenile">
+              <i class="fa-solid fa-rotate"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-stats" id="statsRow">
+          <div class="admin-stat">
+            <div class="admin-stat-val" id="statTotal">0</div>
+            <div class="admin-stat-label">Toplam</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-val" id="statToday">0</div>
+            <div class="admin-stat-label">Bugün</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-val" id="statUpcoming">0</div>
+            <div class="admin-stat-label">Gelecek</div>
+          </div>
+        </div>
+
+        <div class="admin-content">
+          <div class="admin-title">Randevu<span>lar</span></div>
+          <div class="admin-table-wrap">
+            <div id="tableBody"></div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('refreshBtn').addEventListener('click', function() {
+        this.classList.add('spinning');
+        loadAppointments();
+        setTimeout(() => this.classList.remove('spinning'), 600);
+      });
+
+      loadAppointments();
+    }
+
+    function loadAppointments() {
+      const container = document.getElementById('tableBody');
+      container.innerHTML = '<div class="admin-loading"><i class="fa-solid fa-spinner"></i><p>Randevular yükleniyor...</p></div>';
+
+      db.collection('randevular')
+        .orderBy('tarih', 'asc')
+        .orderBy('saat', 'asc')
+        .get()
+        .then(function(snapshot) {
+          var docs = [];
+          snapshot.forEach(function(doc) {
+            docs.push({ id: doc.id, data: doc.data() });
+          });
+
+          if (docs.length === 0) {
+            container.innerHTML = '<div class="admin-empty"><i class="fa-regular fa-calendar"></i><p>Henüz randevu bulunmuyor.</p></div>';
+            updateStats([]);
+            return;
+          }
+
+          var today = new Date();
+          var todayStr = today.getFullYear() + '-' +
+            String(today.getMonth() + 1).padStart(2, '0') + '-' +
+            String(today.getDate()).padStart(2, '0');
+
+          var nowTime = String(today.getHours()).padStart(2, '0') + ':' + String(today.getMinutes()).padStart(2, '0');
+
+          var upcomingCount = 0;
+          var todayCount = 0;
+
+          var html = '<table class="admin-table">' +
+            '<thead><tr>' +
+            '<th>Müşteri</th>' +
+            '<th>Telefon</th>' +
+            '<th>Tarih</th>' +
+            '<th>Saat</th>' +
+            '<th>Hizmet</th>' +
+            '</tr></thead><tbody>';
+
+          docs.forEach(function(item) {
+            var d = item.data;
+            var fullName = (d.ad || '') + ' ' + (d.soyad || '');
+            var phone = d.telefon || '';
+            var date = d.tarih || '';
+            var time = d.saat || '';
+            var services = d.hizmetler || [];
+
+            if (date === todayStr) todayCount++;
+            if (date > todayStr || (date === todayStr && time >= nowTime)) upcomingCount++;
+
+            var serviceHtml = '';
+            if (Array.isArray(services)) {
+              services.forEach(function(s) {
+                serviceHtml += '<span class="admin-service-tag">' + s + '</span>';
+              });
+            } else {
+              serviceHtml += '<span class="admin-service-tag">' + (services || '') + '</span>';
+            }
+
+            var telHref = phone.replace(/[^0-9+]/g, '');
+
+            html += '<tr>' +
+              '<td><strong>' + fullName + '</strong></td>' +
+              '<td class="admin-phone"><a href="tel:' + telHref + '"><i class="fa-solid fa-phone"></i>' + phone + '</a></td>' +
+              '<td class="admin-date">' + date + '</td>' +
+              '<td class="admin-time">' + time + '</td>' +
+              '<td>' + serviceHtml + '</td>' +
+              '</tr>';
+          });
+
+          html += '</tbody></table>';
+          container.innerHTML = html;
+          updateStats({ total: docs.length, today: todayCount, upcoming: upcomingCount });
+        })
+        .catch(function(error) {
+          console.error('Firebase hatası:', error);
+          container.innerHTML = '<div class="admin-empty"><i class="fa-solid fa-triangle-exclamation"></i><p>Veriler yüklenirken hata oluştu.</p></div>';
+        });
+    }
+
+    function updateStats(counts) {
+      document.getElementById('statTotal').textContent = counts.total || 0;
+      document.getElementById('statToday').textContent = counts.today || 0;
+      document.getElementById('statUpcoming').textContent = counts.upcoming || 0;
+    }
+
+    // Auth
+    var pwd = prompt('Yönetim paneline hoş geldiniz.\nLütfen şifreyi giriniz:');
+    renderApp(pwd === PASSWORD);
+  </script>
+</body>
+</html>
