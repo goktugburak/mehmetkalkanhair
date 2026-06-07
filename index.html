@@ -1908,7 +1908,8 @@
                 saat: state.time,
                 hizmetler: state.services,
                 toplamTutar: total,
-                olusturulma: new Date().toISOString()
+                olusturulma: new Date().toISOString(),
+                tamamlandi: false
               }).then(function() {
                 Swal.fire({
                   icon: 'success',

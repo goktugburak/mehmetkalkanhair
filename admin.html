@@ -219,6 +219,27 @@
     }
     .admin-delete:active { transform: scale(0.92); }
 
+    .admin-done {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid rgba(34,197,94,0.2);
+      background: rgba(34,197,94,0.06);
+      color: #22c55e;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.25s;
+    }
+    .admin-done:hover {
+      background: rgba(34,197,94,0.15);
+      border-color: #22c55e;
+    }
+    .admin-done:active { transform: scale(0.92); }
+    .admin-actions { display: flex; gap: 6px; align-items: center; }
+
     /* Empty */
     .admin-empty {
       text-align: center;
@@ -324,6 +345,7 @@
         flex-shrink: 0;
       }
 
+      .admin-actions { justify-content: flex-end; }
       .admin-table td.admin-actions-cell::before { content: 'İşlem'; }
       .admin-table td.admin-actions-cell { padding-top: 10px; margin-top: 10px; border-top: 1px solid rgba(42,39,37,0.5); justify-content: flex-end; }
     }
@@ -449,6 +471,7 @@
 
           var upcomingCount = 0;
           var todayCount = 0;
+          var visibleCount = 0;
 
           var html = '<table class="admin-table">' +
             '<thead><tr>' +
@@ -468,6 +491,10 @@
             var date = d.tarih || '';
             var time = d.saat || '';
             var services = d.hizmetler || [];
+            var isDone = d.tamamlandi === true;
+
+            if (isDone) return;
+            visibleCount++;
 
             if (date === todayStr) todayCount++;
             if (date > todayStr || (date === todayStr && time >= nowTime)) upcomingCount++;
@@ -490,13 +517,21 @@
               '<td class="admin-date" data-label="Tarih">' + formattedDate + '<br><span class="admin-muted">' + date + '</span></td>' +
               '<td class="admin-time" data-label="Saat">' + time + '</td>' +
               '<td data-label="Hizmet">' + serviceHtml + '</td>' +
-              '<td class="admin-actions-cell" data-label="İşlem"><button class="admin-delete" data-id="' + docId + '" title="Sil"><i class="fa-solid fa-trash-can"></i></button></td>' +
+              '<td class="admin-actions-cell" data-label="İşlem"><div class="admin-actions"><button class="admin-done" data-id="' + docId + '" title="Tamamlandı"><i class="fa-solid fa-check"></i></button><button class="admin-delete" data-id="' + docId + '" title="Sil"><i class="fa-solid fa-trash-can"></i></button></div></td>' +
               '</tr>';
           });
 
           html += '</tbody></table>';
           container.innerHTML = html;
-          updateStats({ total: docs.length, today: todayCount, upcoming: upcomingCount });
+          updateStats({ total: visibleCount, today: todayCount, upcoming: upcomingCount });
+
+          // Done handler
+          container.querySelectorAll('.admin-done').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              var docId = this.dataset.id;
+              completeAppointment(docId);
+            });
+          });
 
           // Delete handlers
           container.querySelectorAll('.admin-delete').forEach(function(btn) {
@@ -510,6 +545,15 @@
           console.error('Firebase hatası:', error);
           container.innerHTML = '<div class="admin-empty"><i class="fa-solid fa-triangle-exclamation"></i><p>Veriler yüklenirken hata oluştu.</p></div>';
         });
+    }
+
+    function completeAppointment(docId) {
+      db.collection('randevular').doc(docId).update({ tamamlandi: true }).then(function() {
+        loadAppointments();
+      }).catch(function(error) {
+        console.error('Güncelleme hatası:', error);
+        alert('Randevu güncellenirken hata oluştu.');
+      });
     }
 
     function deleteAppointment(docId) {
