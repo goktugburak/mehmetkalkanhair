@@ -886,50 +886,43 @@
       flex: 1;
       display: flex;
     }
-    .app-times-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-content: flex-start;
+    .app-times-select {
       width: 100%;
-    }
-    .app-times-list.hidden { display: none; }
-    .app-time-slot {
-      padding: 10px 16px;
+      padding: 14px 18px;
+      background: var(--color-card);
       border: 1px solid var(--color-border);
       border-radius: 8px;
-      background: transparent;
       color: var(--color-text);
       font-family: var(--font-body);
-      font-size: 14px;
+      font-size: 15px;
+      outline: none;
       cursor: pointer;
       transition: var(--transition);
-      flex: 0 0 calc(33.333% - 6px);
-      text-align: center;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2388807a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
     }
-    @media (min-width: 641px) and (max-width: 900px) {
-      .app-time-slot { flex: 0 0 calc(50% - 4px); }
-    }
-    .app-time-slot:hover {
-      border-color: rgba(198, 40, 40, 0.3);
-      background: rgba(198, 40, 40, 0.04);
-    }
-    .app-time-slot.selected {
+    .app-times-select:focus {
       border-color: var(--color-red);
-      background: rgba(198, 40, 40, 0.12);
-      color: var(--color-red);
-      font-weight: 600;
     }
-    .slot-dot {
-      display: block;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: #22c55e;
-      margin: 4px auto 0;
-      transition: var(--transition);
+    .app-times-select:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
     }
-    .app-time-slot.selected .slot-dot { background: #fff; }
+    .app-times-select option {
+      background: var(--color-card);
+      color: var(--color-text);
+      padding: 8px;
+    }
+    .app-times-select option:disabled {
+      color: var(--color-text-muted);
+      opacity: 0.5;
+      text-decoration: line-through;
+    }
 
     /* Navigation */
     .app-nav-btns {
@@ -1316,7 +1309,9 @@
               <span>Müsait Saatler</span>
             </div>
             <div class="app-times-body" id="appTimesBody">
-              <div class="app-times-list hidden" id="appTimesList"></div>
+              <select class="app-times-select" id="appTimesSelect" disabled>
+                <option value="">Önce bir tarih seçin</option>
+              </select>
             </div>
           </div>
         </div>
@@ -1620,7 +1615,7 @@
         var calMonthLabel = document.getElementById('calMonthLabel');
         var calPrev = document.getElementById('calPrev');
         var calNext = document.getElementById('calNext');
-        var timesList = document.getElementById('appTimesList');
+        var timesSelect = document.getElementById('appTimesSelect');
         var timesBody = document.getElementById('appTimesBody');
 
         // Helpers
@@ -1650,6 +1645,7 @@
             s.classList.toggle('active', sNum === step);
             s.classList.toggle('done', sNum < step);
           });
+          if (step === 2) renderTimeSlots();
           window.scrollTo({ top: document.getElementById('appointment').offsetTop - 100, behavior: 'smooth' });
         }
 
@@ -1738,38 +1734,65 @@
 
         function renderTimeSlots() {
           if (!state.date) {
-            timesList.classList.add('hidden');
+            timesSelect.innerHTML = '<option value="">Önce bir tarih seçin</option>';
+            timesSelect.disabled = true;
             return;
           }
 
-          timesList.classList.remove('hidden');
+          timesSelect.disabled = true;
+          timesSelect.innerHTML = '<option value="">Yükleniyor...</option>';
 
-          var slots = [];
-          for (var h = 9; h <= 17; h++) {
-            var hStr = h < 10 ? '0' + h : '' + h;
-            var nextH = h + 1;
-            var nextStr = nextH < 10 ? '0' + nextH : '' + nextH;
-            slots.push({ value: hStr + ':00', label: hStr + '.00-' + nextStr + '.00' });
-          }
-
-          var html = '';
-          slots.forEach(function(slot) {
-            var selected = (state.time === slot.value) ? ' selected' : '';
-            html += '<button class="app-time-slot' + selected + '" data-time="' + slot.value + '">' + slot.label + '<span class="slot-dot"></span></button>';
-          });
-          timesList.innerHTML = html;
-
-          timesList.querySelectorAll('.app-time-slot').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-              timesList.querySelectorAll('.app-time-slot').forEach(function(b) {
-                b.classList.remove('selected');
+          // Fetch booked slots for this date from Firestore
+          db.collection('randevular')
+            .where('tarih', '==', state.date)
+            .get()
+            .then(function(snapshot) {
+              var booked = {};
+              snapshot.forEach(function(doc) {
+                var saat = doc.data().saat;
+                if (saat) booked[saat] = true;
               });
-              this.classList.add('selected');
-              state.time = this.dataset.time;
-              next2Btn.disabled = false;
+
+              var slots = [];
+              for (var h = 9; h <= 17; h++) {
+                var hStr = h < 10 ? '0' + h : '' + h;
+                var nextH = h + 1;
+                var nextStr = nextH < 10 ? '0' + nextH : '' + nextH;
+                slots.push({ value: hStr + ':00', label: hStr + '.00-' + nextStr + '.00' });
+              }
+
+              var html = '<option value="">Saat seçin</option>';
+              slots.forEach(function(slot) {
+                var isBooked = !!booked[slot.value];
+                var disabled = isBooked ? ' disabled' : '';
+                var label = isBooked ? slot.label + ' (dolu)' : slot.label;
+                var selected = (state.time === slot.value) ? ' selected' : '';
+                html += '<option value="' + slot.value + '"' + disabled + selected + '>' + label + '</option>';
+              });
+
+              timesSelect.innerHTML = html;
+              timesSelect.disabled = false;
+
+              if (state.time && booked[state.time]) {
+                state.time = '';
+                next2Btn.disabled = true;
+              }
+
+              if (state.time) {
+                next2Btn.disabled = false;
+              }
+            })
+            .catch(function(error) {
+              console.error('Saat kontrol hatası:', error);
+              timesSelect.innerHTML = '<option value="">Saatler yüklenemedi</option>';
             });
-          });
         }
+
+        // Select change handler
+        timesSelect.addEventListener('change', function() {
+          state.time = this.value;
+          next2Btn.disabled = !state.time;
+        });
 
         calPrev.addEventListener('click', function() {
           calDate.setMonth(calDate.getMonth() - 1);
@@ -1858,42 +1881,71 @@
             });
           });
 
-          db.collection('randevular').add({
-            ad: state.name,
-            soyad: state.surname,
-            telefon: state.phone,
-            tarih: state.date,
-            saat: state.time,
-            hizmetler: state.services,
-            toplamTutar: total,
-            olusturulma: new Date().toISOString()
-          }).then(function() {
-            Swal.fire({
-              icon: 'success',
-              title: 'Randevunuz Alındı!',
-              html: '<span style="font-size:16px;color:#555">' +
-                    '<strong>' + state.name + ' ' + state.surname + '</strong>, randevunuz başarıyla oluşturuldu.<br><br>' +
-                    '📅 ' + state.date + '<br>' +
-                    '⏰ ' + state.time + '<br>' +
-                    '✂️ ' + state.services.join(', ') + '<br>' +
-                    '💰 ' + total + ' TL' +
-                    '</span>',
-              confirmButtonText: 'Tamam',
-              confirmButtonColor: '#C62828',
-              background: '#fafafa',
-              customClass: { popup: 'swal-popup' }
-            }).then(function() {
-              window.location.reload();
+          // Final check: verify slot is still available
+          db.collection('randevular')
+            .where('tarih', '==', state.date)
+            .where('saat', '==', state.time)
+            .get()
+            .then(function(snapshot) {
+              if (!snapshot.empty) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Bu saat doldu!',
+                  text: 'Seçtiğiniz saat başka birisi tarafından alındı. Lütfen farklı bir saat seçin.',
+                  confirmButtonColor: '#C62828'
+                }).then(function() {
+                  renderTimeSlots();
+                });
+                return;
+              }
+
+              // Slot is available, save
+              db.collection('randevular').add({
+                ad: state.name,
+                soyad: state.surname,
+                telefon: state.phone,
+                tarih: state.date,
+                saat: state.time,
+                hizmetler: state.services,
+                toplamTutar: total,
+                olusturulma: new Date().toISOString()
+              }).then(function() {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Randevunuz Alındı!',
+                  html: '<span style="font-size:16px;color:#555">' +
+                        '<strong>' + state.name + ' ' + state.surname + '</strong>, randevunuz başarıyla oluşturuldu.<br><br>' +
+                        '📅 ' + state.date + '<br>' +
+                        '⏰ ' + state.time + '<br>' +
+                        '✂️ ' + state.services.join(', ') + '<br>' +
+                        '💰 ' + total + ' TL' +
+                        '</span>',
+                  confirmButtonText: 'Tamam',
+                  confirmButtonColor: '#C62828',
+                  background: '#fafafa',
+                  customClass: { popup: 'swal-popup' }
+                }).then(function() {
+                  window.location.reload();
+                });
+              }).catch(function(error) {
+                console.error('Firebase hatası:', error);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Hata!',
+                  text: 'Randevu kaydedilirken bir sorun oluştu. Lütfen tekrar deneyin.',
+                  confirmButtonColor: '#C62828'
+                });
+              });
+            })
+            .catch(function(error) {
+              console.error('Kontrol hatası:', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Hata!',
+                text: 'Kontrol yapılamadı. Lütfen tekrar deneyin.',
+                confirmButtonColor: '#C62828'
+              });
             });
-          }).catch(function(error) {
-            console.error('Firebase hatası:', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Hata!',
-              text: 'Randevu kaydedilirken bir sorun oluştu. Lütfen tekrar deneyin.',
-              confirmButtonColor: '#C62828'
-            });
-          });
         }
 
         // ----- Event Listeners -----
