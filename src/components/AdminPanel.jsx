@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { collection, query, orderBy, onSnapshot, doc, updateDoc, getDoc, setDoc, addDoc, serverTimestamp, getDocs, where } from 'firebase/firestore'
+import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc, getDoc, setDoc, addDoc, serverTimestamp, getDocs, where } from 'firebase/firestore'
 import { db } from '../firebase'
 import Takvim from './Takvim'
 
@@ -22,6 +22,7 @@ const AdminPanel = ({ user }) => {
   const [appointments, setAppointments] = useState([])
   const [loading, setLoading] = useState(true)
   const [updating, setUpdating] = useState(null)
+  const [deleting, setDeleting] = useState(null)
 
   const [slotDate, setSlotDate] = useState('')
   const [blockedSlots, setBlockedSlots] = useState([])
@@ -150,6 +151,17 @@ const AdminPanel = ({ user }) => {
       console.error('Durum güncelleme hatasi:', err)
     } finally {
       setUpdating(null)
+    }
+  }
+
+  const handleDeleteAppointment = async (id) => {
+    setDeleting(id)
+    try {
+      await deleteDoc(doc(db, 'appointments', id))
+    } catch (err) {
+      console.error('Randevu silme hatasi:', err)
+    } finally {
+      setDeleting(null)
     }
   }
 
@@ -390,7 +402,20 @@ const AdminPanel = ({ user }) => {
                           </button>
                         </>
                       ) : (
-                        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 36, color: '#555', fontSize: 13, minWidth: 80 }}>—</span>
+                        <button
+                          onClick={() => handleDeleteAppointment(a.id)}
+                          disabled={deleting === a.id}
+                          style={{
+                            ...deleteBtn,
+                            opacity: deleting === a.id ? 0.5 : 1,
+                          }}
+                        >
+                          {deleting === a.id ? (
+                            <i className="fa-solid fa-spinner fa-spin"></i>
+                          ) : (
+                            <i className="fa-solid fa-trash-can"></i>
+                          )}
+                        </button>
                       )}
                     </td>
                   </tr>
@@ -844,6 +869,22 @@ const actionActiveGreen = {
 
 const actionActiveRed = {
   background: 'rgba(229,57,53,0.12)',
+  color: '#E53935',
+}
+
+const deleteBtn = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 36,
+  height: 36,
+  border: 'none',
+  borderRadius: 6,
+  fontFamily: "'Inter', sans-serif",
+  fontSize: 13,
+  cursor: 'pointer',
+  transition: 'all 0.15s',
+  background: 'rgba(229,57,53,0.1)',
   color: '#E53935',
 }
 
