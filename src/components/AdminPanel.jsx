@@ -251,7 +251,7 @@ const AdminPanel = ({ user }) => {
         phoneNumber: newPhone.trim(),
         date: newDate,
         time: newTime,
-        status: 'bekliyor',
+        status: 'onaylandı',
         createdAt: serverTimestamp(),
       })
       setShowModal(false)

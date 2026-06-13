@@ -17,6 +17,7 @@ const RandevuForm = ({ user }) => {
   const [loading, setLoading] = useState(false)
   const [booking, setBooking] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [name, setName] = useState('')
   const [error, setError] = useState('')
 
   const [shopSettings, setShopSettings] = useState(null)
@@ -65,7 +66,7 @@ const RandevuForm = ({ user }) => {
     try {
       const disabled = new Set()
 
-      const q = query(collection(db, 'appointments'), where('date', '==', date))
+      const q = query(collection(db, 'appointments'), where('date', '==', date), where('status', '!=', 'iptal edildi'))
       const snapshot = await getDocs(q)
       snapshot.forEach((d) => disabled.add(d.data().time))
 
@@ -84,19 +85,28 @@ const RandevuForm = ({ user }) => {
 
   const handleConfirm = async () => {
     if (!selectedDate || !selectedTime) return
+    const trimmed = name.trim()
+    if (!trimmed || trimmed.length < 3) {
+      setError('Lütfen randevuyu tamamlamak için adınızı ve soyadınızı giriniz.')
+      return
+    }
+    if (!/^[a-zA-ZçÇğĞıİöÖşŞüÜ\s]+$/.test(trimmed)) {
+      setError('Lütfen geçerli bir ad soyad giriniz (Rakam veya sembol kullanılamaz).')
+      return
+    }
     setError('')
     setBooking(true)
     try {
       await addDoc(collection(db, 'appointments'), {
         userId: user.uid,
         phoneNumber: user.phoneNumber,
+        name: name.trim(),
         date: selectedDate,
         time: selectedTime,
-        status: 'bekliyor',
+        status: 'onaylandı',
         createdAt: serverTimestamp(),
       })
       setSuccess(true)
-      setSelectedTime('')
     } catch (err) {
       console.error('Randevu kayit hatasi:', err)
       setError('Randevu kaydedilirken bir hata oluştu.')
@@ -131,11 +141,12 @@ const RandevuForm = ({ user }) => {
               <span>{selectedTime}</span>
             </div>
           </div>
-          <p style={successNote}>Onay bekliyor — size en kısa sürede dönüş yapılacaktır.</p>
+          <p style={successNote}>Randevunuz onaylanmıştır. Lütfen seçtiğiniz saatte dükkanda olunuz.</p>
           <button
             onClick={() => {
               setSuccess(false)
               setSelectedDate('')
+              setSelectedTime('')
               setBookedSlots([])
             }}
             style={btn}
@@ -157,6 +168,17 @@ const RandevuForm = ({ user }) => {
       <div style={userBadge}>
         <i className="fa-solid fa-user" style={{ color: '#88807a', fontSize: 12 }}></i>
         <span>{user.phoneNumber}</span>
+      </div>
+
+      <div style={fieldGroup}>
+        <label style={label}>Adınız ve Soyadınız</label>
+        <input
+          type="text"
+          placeholder="Adınız ve soyadınız"
+          value={name}
+          onChange={(e) => { setName(e.target.value.replace(/[^a-zA-ZçÇğĞıİöÖşŞüÜ\s]/g, '')); setError('') }}
+          style={nameInput}
+        />
       </div>
 
       <div style={fieldGroup}>
@@ -276,6 +298,20 @@ const userBadge = {
   fontSize: 13,
   color: '#88807a',
   marginBottom: 24,
+}
+
+const nameInput = {
+  width: '100%',
+  padding: '14px 16px',
+  background: '#1a1a1a',
+  border: '1px solid #2a2725',
+  borderRadius: 8,
+  color: '#f5f0e8',
+  fontFamily: "'Inter', sans-serif",
+  fontSize: 15,
+  outline: 'none',
+  boxSizing: 'border-box',
+  transition: 'border-color 0.2s',
 }
 
 const fieldGroup = {
