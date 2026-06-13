@@ -1,0 +1,2007 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hair Art Mehmet Kalkan - Premium berber ve saç tasarımı. Tarzınızı profesyonel ellere bırakın.">
+  <title>Hair Art Mehmet Kalkan | Premium Barber</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --color-bg: #070707;
+      --color-surface: #111111;
+      --color-card: #1a1a1a;
+      --color-red: #C62828;
+      --color-red-light: #E53935;
+      --color-red-dark: #8B1A1A;
+      --color-text: #f5f0e8;
+      --color-text-muted: #88807a;
+      --color-border: #2a2725;
+      --color-nav-bg: rgba(7, 7, 7, 0.92);
+      --font-heading: 'Oswald', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --container: 1200px;
+      --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    ul { list-style: none; }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--color-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--color-red-dark); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-red); }
+
+    /* ===== SECTION ===== */
+    .section {
+      padding: 100px 0;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--color-red);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 16px;
+      color: var(--color-text-muted);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+    .red-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--color-red);
+      margin: 20px 0 30px;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 20px 0;
+      transition: background var(--transition), padding var(--transition);
+    }
+    .navbar.scrolled {
+      background: var(--color-nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(198, 40, 40, 0.15);
+    }
+    .navbar .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .nav-logo-main {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--color-red);
+      letter-spacing: 2px;
+    }
+    .nav-logo-sub {
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--color-red);
+      transition: width var(--transition);
+    }
+    .nav-links a:hover {
+      color: var(--color-red);
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    .nav-cta {
+      background: transparent !important;
+      border: 1px solid var(--color-red) !important;
+      color: var(--color-red) !important;
+      padding: 10px 24px !important;
+      border-radius: 4px;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      letter-spacing: 2px !important;
+      transition: background var(--transition), color var(--transition) !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover {
+      background: var(--color-red) !important;
+      color: var(--color-bg) !important;
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 28px;
+      height: 20px;
+      position: relative;
+      z-index: 1001;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--color-text);
+      border-radius: 2px;
+      transition: var(--transition);
+      position: absolute;
+      left: 0;
+    }
+    .nav-toggle span:nth-child(1) { top: 0; }
+    .nav-toggle span:nth-child(2) { top: 9px; }
+    .nav-toggle span:nth-child(3) { top: 18px; }
+    .nav-toggle.active span:nth-child(1) {
+      transform: rotate(45deg);
+      top: 9px;
+    }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg);
+      top: 9px;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #070707 0%, #111111 40%, #1a1510 100%);
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(198, 40, 40, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(198, 40, 40, 0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(255,255,255,0.015) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(198, 40, 40, 0.04) 80px, rgba(198, 40, 40, 0.04) 81px),
+        repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(255, 255, 255, 0.01) 80px, rgba(255, 255, 255, 0.01) 81px);
+      pointer-events: none;
+    }
+    .hero .container {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+    .hero-content {
+      max-width: 820px;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--color-red);
+      border: 1px solid rgba(198, 40, 40, 0.3);
+      padding: 8px 20px;
+      border-radius: 4px;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards;
+    }
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(44px, 8vw, 96px);
+      font-weight: 600;
+      line-height: 1.05;
+      color: var(--color-text);
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.15s forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--color-red);
+    }
+    .hero-sub {
+      font-family: var(--font-heading);
+      font-size: clamp(16px, 2vw, 22px);
+      font-weight: 400;
+      color: var(--color-text-muted);
+      margin-bottom: 40px;
+      font-style: italic;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.3s forwards;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.45s forwards;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+    }
+    .btn-primary {
+      background: var(--color-red);
+      color: var(--color-bg);
+    }
+    .btn-primary:hover {
+      background: var(--color-red-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(198, 40, 40, 0.35);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+    .btn-outline:hover {
+      border-color: var(--color-red);
+      color: var(--color-red);
+      transform: translateY(-2px);
+    }
+    .hero-stats {
+      display: flex;
+      gap: 60px;
+      margin-top: 80px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.6s forwards;
+    }
+    .hero-stat-val {
+      font-family: var(--font-heading);
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--color-red);
+    }
+    .hero-stat-label {
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-top: 4px;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== SERVICES ===== */
+    #services { background: var(--color-bg); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 50px;
+    }
+    .service-card {
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 40px 32px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--color-red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.6s ease;
+    }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card:hover {
+      border-color: rgba(198, 40, 40, 0.3);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    .service-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(198, 40, 40, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      font-size: 22px;
+      color: var(--color-red);
+      transition: var(--transition);
+    }
+    .service-card:hover .service-icon {
+      background: var(--color-red);
+      color: var(--color-bg);
+    }
+    .service-card h3 {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    .service-card p {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+    .service-price {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-red);
+      letter-spacing: 1px;
+    }
+
+    /* ===== ABOUT ===== */
+    #about {
+      background: var(--color-surface);
+      position: relative;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-image {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--color-border);
+    }
+    .about-image-placeholder {
+      font-size: 80px;
+      color: var(--color-red);
+      opacity: 0.3;
+    }
+    .about-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(198, 40, 40, 0.1);
+      border-radius: 8px;
+    }
+    .about-text .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+    }
+    .about-text p {
+      font-size: 15px;
+      color: var(--color-text-muted);
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+    .about-signature {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-style: italic;
+      color: var(--color-red);
+      margin-top: 24px;
+    }
+
+    /* ===== CONTACT ===== */
+    #contact { background: var(--color-surface); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-top: 50px;
+    }
+    .contact-info h3 {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .contact-item i {
+      width: 20px;
+      color: var(--color-red);
+      font-size: 18px;
+      margin-top: 4px;
+    }
+    .contact-item h4 {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .contact-item p {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+    .contact-hours {
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid var(--color-border);
+    }
+    .contact-hours h4 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-red);
+      margin-bottom: 16px;
+    }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      padding: 8px 0;
+      color: var(--color-text-muted);
+    }
+    .hours-row span:last-child { color: var(--color-text); }
+
+    .contact-social {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .contact-social a {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--color-text-muted);
+      transition: var(--transition);
+    }
+    .contact-social a:hover {
+      border-color: var(--color-red);
+      color: var(--color-red);
+      transform: translateY(-3px);
+    }
+
+    .contact-map {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      height: 100%;
+      min-height: 360px;
+      background: var(--color-card);
+      position: relative;
+    }
+    .contact-map iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ===== APPOINTMENT ===== */
+    #appointment { background: var(--color-bg); }
+
+    .app-steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 40px 0 50px;
+    }
+    .app-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .app-step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .app-step.active .app-step-num {
+      border-color: var(--color-red);
+      background: var(--color-red);
+      color: #fff;
+    }
+    .app-step.done .app-step-num {
+      border-color: var(--color-red);
+      background: var(--color-red);
+      color: #fff;
+    }
+    .app-step-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: none;
+    }
+    .app-step.active .app-step-label,
+    .app-step.done .app-step-label {
+      color: var(--color-text);
+    }
+    @media (min-width: 600px) {
+      .app-step-label { display: block; }
+    }
+    .app-step-line {
+      width: 40px;
+      height: 1px;
+      background: var(--color-border);
+    }
+    .app-step.done ~ .app-step-line { background: var(--color-red); }
+
+    .app-panel {
+      max-width: 640px;
+      margin: 0 auto;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .app-panel.hidden {
+      display: none;
+    }
+    .app-panel-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    /* Services */
+    .app-services {
+      display: grid;
+      gap: 12px;
+    }
+    .app-service {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .app-service:hover {
+      border-color: rgba(198, 40, 40, 0.3);
+    }
+    .app-service.selected {
+      border-color: var(--color-red);
+      background: rgba(198, 40, 40, 0.08);
+    }
+    .app-svc-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      border: 2px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: transparent;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .app-service.selected .app-svc-check {
+      background: var(--color-red);
+      border-color: var(--color-red);
+      color: #fff;
+    }
+    .app-svc-icon {
+      font-size: 20px;
+      color: var(--color-red);
+      width: 32px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .app-svc-info {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .app-svc-name {
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .app-svc-price {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-red);
+    }
+    .app-total {
+      text-align: right;
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--color-border);
+    }
+    .app-total span { color: var(--color-red); }
+
+    /* Date & Time */
+    .app-datetime {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 640px) {
+      .app-datetime { grid-template-columns: 1fr; }
+    }
+
+    /* Calendar */
+    .app-calendar {
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .app-cal-header {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .app-cal-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .app-cal-title i { color: var(--color-red); font-size: 18px; }
+    .app-cal-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .app-cal-nav-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: transparent;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+    .app-cal-nav-btn:hover {
+      border-color: var(--color-red);
+      color: var(--color-red);
+    }
+    .app-cal-month {
+      font-size: 15px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .app-cal-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+    .app-cal-days span {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 6px 0;
+    }
+    .app-cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .app-cal-day {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--color-text);
+      font-size: 14px;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      gap: 2px;
+    }
+    .app-cal-day:hover {
+      background: rgba(255,255,255,0.05);
+    }
+    .app-cal-day.other-month {
+      color: var(--color-text-muted);
+      opacity: 0.3;
+    }
+    .app-cal-day.today {
+      font-weight: 700;
+    }
+    .app-cal-day.selected {
+      background: var(--color-red) !important;
+      color: #fff !important;
+      font-weight: 600;
+    }
+    .app-cal-day.selected .cal-dot { background: #fff; }
+    .app-cal-day.past {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+    .cal-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #22c55e;
+      transition: var(--transition);
+    }
+    .app-cal-day.selected .cal-dot { background: #fff; }
+
+    /* Available Times */
+    .app-times {
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    .app-times-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .app-times-body {
+      flex: 1;
+      display: flex;
+    }
+    .app-times-select {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      outline: none;
+      cursor: pointer;
+      transition: var(--transition);
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2388807a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+    .app-times-select:focus {
+      border-color: var(--color-red);
+    }
+    .app-times-select:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .app-times-select option {
+      background: var(--color-card);
+      color: var(--color-text);
+      padding: 8px;
+    }
+    .app-times-select option:disabled {
+      color: var(--color-text-muted);
+      opacity: 0.5;
+      text-decoration: line-through;
+    }
+
+    /* Navigation */
+    .app-nav-btns {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .app-next, .app-prev {
+      flex: 1;
+      justify-content: center;
+      min-width: 140px;
+    }
+
+    /* Form */
+    .app-form {
+      display: grid;
+      gap: 20px;
+    }
+    .app-form-group {
+      display: grid;
+      gap: 6px;
+    }
+    .app-form-group label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+    .app-form-group input {
+      padding: 14px 18px;
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      outline: none;
+      transition: var(--transition);
+    }
+    .app-form-group input:focus {
+      border-color: var(--color-red);
+    }
+    .app-form-group input.error {
+      border-color: #E53935;
+    }
+    .app-phone-wrapper {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      background: var(--color-card);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .app-phone-wrapper:focus-within {
+      border-color: var(--color-red);
+    }
+    .app-phone-prefix {
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      background: rgba(255,255,255,0.03);
+      border-right: 1px solid var(--color-border);
+      user-select: none;
+    }
+    .app-phone-wrapper input {
+      flex: 1;
+      border: none !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+    }
+    .app-phone-wrapper input:focus {
+      border-color: transparent !important;
+    }
+    .app-error {
+      font-size: 12px;
+      color: #E53935;
+      min-height: 18px;
+    }
+
+    /* Summary */
+    .app-summary {
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-top: 24px;
+      display: grid;
+      gap: 8px;
+    }
+    .app-summary.hidden { display: none; }
+    .app-summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+    .app-summary-row .label { color: var(--color-text-muted); }
+    .app-summary-row .value { font-weight: 500; text-align: right; }
+    .app-summary-divider {
+      height: 1px;
+      background: var(--color-border);
+      margin: 4px 0;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      border-top: 1px solid var(--color-border);
+      padding: 32px 0;
+      text-align: center;
+    }
+    .footer p {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      letter-spacing: 0.5px;
+    }
+    .footer a { color: var(--color-red); }
+
+    /* ===== WHATSAPP FLOAT ===== */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 999;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.35);
+      transition: var(--transition);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
+    }
+    .whatsapp-float.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .whatsapp-float:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .about-image { max-height: 400px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .contact-map { min-height: 280px; }
+
+    }
+
+    @media (max-width: 768px) {
+      .section { padding: 60px 0; }
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: var(--color-surface);
+        flex-direction: column;
+        justify-content: center;
+        gap: 24px;
+        padding: 40px;
+        transition: right 0.4s ease;
+        border-left: 1px solid var(--color-border);
+        z-index: 1000;
+      }
+      .nav-links.open { right: 0; }
+      .nav-links a { font-size: 16px; }
+      .nav-toggle { display: block; }
+      .hero-stats { gap: 30px; flex-wrap: wrap; }
+      .hero-stats { margin-top: 50px; }
+      .services-grid { gap: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: 36px; }
+      .hero-stats { gap: 20px; }
+      .hero-stat-val { font-size: 24px; }
+      .btn { padding: 14px 24px; font-size: 12px; }
+      .whatsapp-float { width: 48px; height: 48px; font-size: 22px; right: 20px; bottom: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#hero" class="nav-logo">
+        <span class="nav-logo-main">Hair Art</span>
+        <span class="nav-logo-sub">Mehmet Kalkan</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero" class="nav-link">Ana Sayfa</a></li>
+        <li><a href="#services" class="nav-link">Hizmetler</a></li>
+        <li><a href="#about" class="nav-link">Hakkımda</a></li>
+        <li><a href="#contact" class="nav-link">İletişim</a></li>
+        <li><a href="#appointment" class="nav-cta">Randevu Al</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menü">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-pattern"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">Premium Barber &amp; Stylist</div>
+        <h1 class="hero-title">Hair Art<br><em>Mehmet Kalkan</em></h1>
+        <p class="hero-sub">Tarzınızı Profesyonel Ellere Bırakın</p>
+        <div class="hero-actions">
+          <a href="#appointment" class="btn btn-primary">
+            <i class="fa-regular fa-calendar-check"></i> Randevu Al
+          </a>
+          <a href="#services" class="btn btn-outline">
+            Hizmetlerimiz <i class="fa-solid fa-arrow-down"></i>
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-val">12+</div>
+            <div class="hero-stat-label">Yıllık Deneyim</div>
+          </div>
+          <div>
+            <div class="hero-stat-val">5K+</div>
+            <div class="hero-stat-label">Mutlu Müşteri</div>
+          </div>
+          <div>
+            <div class="hero-stat-val">50+</div>
+            <div class="hero-stat-label">Ödül &amp; Sertifika</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section class="section" id="services">
+    <div class="container">
+      <span class="section-label">Hizmetler</span>
+      <h2 class="section-title">Uzmanlık Alanlarım</h2>
+      <div class="red-divider"></div>
+      <p class="section-desc">
+        Her detayı özenle tasarladığımız hizmetlerimizle, tarzınıza değer katıyoruz.
+      </p>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-scissors"></i></div>
+          <h3>Saç Tıraşı</h3>
+          <p>Modern ve klasik stillerde, yüz şeklinize uygun profesyonel saç kesimi tasarımları.</p>
+          <span class="service-price">600₺</span>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-scissors"></i></div>
+          <h3>Saç + Sakal</h3>
+          <p>Saç kesimi ve sakal düzenlemesini bir arada, özel fiyat avantajıyla.</p>
+          <span class="service-price">700₺</span>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-regular fa-eye"></i></div>
+          <h3>Kaş Aldırma</h3>
+          <p>Profesyonel kaş şekillendirme ve aldırma işlemi.</p>
+          <span class="service-price">150₺</span>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-star"></i></div>
+          <h3>Sadece Sakal</h3>
+          <p>Yüz hatlarınızı belirginleştiren, özenle çalışılmış sakal şekillendirme ve düzeltme.</p>
+          <span class="service-price">200₺</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== APPOINTMENT ===== -->
+  <section class="section" id="appointment">
+    <div class="container">
+      <span class="section-label">Randevu</span>
+      <h2 class="section-title">Online Randevu Al</h2>
+      <div class="red-divider"></div>
+      <p class="section-desc">Adım adım ilerleyin, dakikalar içinde randevunuzu oluşturun.</p>
+
+      <!-- Steps Indicator -->
+      <div class="app-steps">
+        <div class="app-step active" data-step="1">
+          <span class="app-step-num">1</span>
+          <span class="app-step-label">Hizmet</span>
+        </div>
+        <div class="app-step-line"></div>
+        <div class="app-step" data-step="2">
+          <span class="app-step-num">2</span>
+          <span class="app-step-label">Tarih &amp; Saat</span>
+        </div>
+        <div class="app-step-line"></div>
+        <div class="app-step" data-step="3">
+          <span class="app-step-num">3</span>
+          <span class="app-step-label">Bilgiler</span>
+        </div>
+      </div>
+
+      <!-- Step 1: Service Selection -->
+      <div class="app-panel" id="appStep1">
+        <h3 class="app-panel-title">Hizmet(ler) Seçin</h3>
+        <div class="app-services">
+          <div class="app-service" data-name="Saç Tıraşı" data-price="600">
+            <div class="app-svc-check"><i class="fa-solid fa-check"></i></div>
+            <div class="app-svc-icon"><i class="fa-solid fa-scissors"></i></div>
+            <div class="app-svc-info">
+              <span class="app-svc-name">Saç Tıraşı</span>
+              <span class="app-svc-price">600₺</span>
+            </div>
+          </div>
+          <div class="app-service" data-name="Saç + Sakal" data-price="700">
+            <div class="app-svc-check"><i class="fa-solid fa-check"></i></div>
+            <div class="app-svc-icon"><i class="fa-solid fa-scissors"></i></div>
+            <div class="app-svc-info">
+              <span class="app-svc-name">Saç + Sakal</span>
+              <span class="app-svc-price">700₺</span>
+            </div>
+          </div>
+          <div class="app-service" data-name="Kaş Aldırma" data-price="150">
+            <div class="app-svc-check"><i class="fa-solid fa-check"></i></div>
+            <div class="app-svc-icon"><i class="fa-regular fa-eye"></i></div>
+            <div class="app-svc-info">
+              <span class="app-svc-name">Kaş Aldırma</span>
+              <span class="app-svc-price">150₺</span>
+            </div>
+          </div>
+          <div class="app-service" data-name="Sadece Sakal" data-price="200">
+            <div class="app-svc-check"><i class="fa-solid fa-check"></i></div>
+            <div class="app-svc-icon"><i class="fa-solid fa-star"></i></div>
+            <div class="app-svc-info">
+              <span class="app-svc-name">Sadece Sakal</span>
+              <span class="app-svc-price">200₺</span>
+            </div>
+          </div>
+        </div>
+        <div class="app-total" id="appTotal">Toplam: 0₺</div>
+        <button class="btn btn-primary app-next" data-next="2">Devam Et</button>
+      </div>
+
+      <!-- Step 2: Date & Time -->
+      <div class="app-panel hidden" id="appStep2">
+        <div class="app-datetime">
+          <!-- Calendar -->
+          <div class="app-calendar">
+            <div class="app-cal-header">
+              <div class="app-cal-title">
+                <i class="fa-regular fa-calendar"></i>
+                <span>Tarih ve Saat Seçin</span>
+              </div>
+              <div class="app-cal-nav">
+                <button class="app-cal-nav-btn" id="calPrev"><i class="fa-solid fa-chevron-left"></i></button>
+                <span class="app-cal-month" id="calMonthLabel">Haziran 2026</span>
+                <button class="app-cal-nav-btn" id="calNext"><i class="fa-solid fa-chevron-right"></i></button>
+              </div>
+            </div>
+            <div class="app-cal-days">
+              <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span>
+            </div>
+            <div class="app-cal-grid" id="calGrid"></div>
+          </div>
+
+          <!-- Available Times -->
+          <div class="app-times" id="appTimes">
+            <div class="app-times-header">
+              <i class="fa-regular fa-clock" style="color:#22c55e"></i>
+              <span>Müsait Saatler</span>
+            </div>
+            <div class="app-times-body" id="appTimesBody">
+              <select class="app-times-select" id="appTimesSelect" disabled>
+                <option value="">Önce bir tarih seçin</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="app-nav-btns">
+          <button class="btn btn-outline app-prev" data-prev="1">Geri</button>
+          <button class="btn btn-primary app-next" data-next="3" id="appNext2" disabled>Devam Et</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Customer Info -->
+      <div class="app-panel hidden" id="appStep3">
+        <h3 class="app-panel-title">Bilgilerinizi Girin</h3>
+        <div class="app-form">
+          <div class="app-form-group">
+            <label for="appName">Ad</label>
+            <input type="text" id="appName" placeholder="Adınız" autocomplete="given-name">
+            <span class="app-error" id="appNameError"></span>
+          </div>
+          <div class="app-form-group">
+            <label for="appSurname">Soyad</label>
+            <input type="text" id="appSurname" placeholder="Soyadınız" autocomplete="family-name">
+            <span class="app-error" id="appSurnameError"></span>
+          </div>
+          <div class="app-form-group">
+            <label for="appPhone">Telefon</label>
+            <div class="app-phone-wrapper">
+              <span class="app-phone-prefix">+90</span>
+              <input type="tel" id="appPhone" placeholder="" autocomplete="tel">
+            </div>
+          </div>
+        </div>
+        <div class="app-summary" id="appSummary"></div>
+        <div class="app-nav-btns">
+          <button class="btn btn-outline app-prev" data-prev="2">Geri</button>
+          <button class="btn btn-primary" id="appConfirm">Randevuyu Onayla</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image">
+          <div class="about-image-placeholder">
+            <i class="fa-solid fa-user-tie"></i>
+          </div>
+        </div>
+        <div class="about-text">
+          <span class="section-label">Benim Tarzım</span>
+          <h2 class="section-title">Sanata Dönüşen <br>Her Kesim</h2>
+          <div class="red-divider"></div>
+          <p>
+            Merhaba, ben Mehmet Kalkan. 12 yılı aşkın süredir berberlik sanatını icra ediyorum. 
+            Herkesin saçı bir tuval, her kesim ise bir fırça darbesidir. Benim için berberlik 
+            yalnızca bir meslek değil, bir tutku ve yaşam tarzıdır.
+          </p>
+          <p>
+            Klasik İtalyan berberliğinden modern trendlere kadar geniş bir yelpazede hizmet 
+            veriyorum. Her müşterime özel yaklaşarak, onların tarzını en iyi şekilde yansıtmayı 
+            hedefliyorum.
+          </p>
+          <p>
+            Salonumda sadece bir kesim değil, kendinizi iyi hissedeceğiniz bir deneyim 
+            yaşayacaksınız. Çünkü gerçek şıklık, detaylarda gizlidir.
+          </p>
+          <div class="about-signature">— Mehmet Kalkan</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ===== CONTACT ===== -->
+  <section class="section" id="contact">
+    <div class="container">
+      <span class="section-label">İletişim</span>
+      <h2 class="section-title">Randevu &amp; Adres</h2>
+      <div class="red-divider"></div>
+      <p class="section-desc">
+        Bize ulaşın, tarzınızı birlikte şekillendirelim.
+      </p>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>Salon İletişim</h3>
+          <div class="contact-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <h4>Adres</h4>
+              <p>Yenibağlar, Eti Cd. No:1<br>26000 Tepebaşı/Eskişehir</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <div>
+              <h4>Telefon</h4>
+              <p><a href="tel:+905425082647" style="color:inherit">+90 542 508 26 47</a></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <i class="fa-regular fa-envelope"></i>
+            <div>
+              <h4>E-posta</h4>
+              <p>info@mehmetkalkan.com</p>
+            </div>
+          </div>
+          <div class="contact-hours">
+            <h4>Çalışma Saatleri</h4>
+            <div class="hours-row"><span>Pazartesi - Cuma</span><span>09:00 - 20:00</span></div>
+            <div class="hours-row"><span>Cumartesi</span><span>10:00 - 18:00</span></div>
+            <div class="hours-row"><span>Pazar</span><span>Kapalı</span></div>
+          </div>
+          <div class="contact-social">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://wa.me/905425082647" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="contact-map">
+          <iframe src="https://www.google.com/maps?q=Yeniba%C4%9Flar,+Eti+Cd.+No:1,+26000+Tepeba%C5%9F%C4%B1/Eski%C5%9Fehir&output=embed&z=16" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 <a href="#">Hair Art Mehmet Kalkan</a>. Tüm hakları saklıdır.</p>
+    </div>
+  </footer>
+
+  <!-- ===== WHATSAPP FLOAT ===== -->
+  <a href="https://wa.me/905425082647" target="_blank" class="whatsapp-float" id="whatsappFloat" aria-label="WhatsApp ile iletişim">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elements
+      const navbar = document.getElementById('navbar');
+      const navToggle = document.getElementById('navToggle');
+      const navLinks = document.getElementById('navLinks');
+      const sections = document.querySelectorAll('.section');
+      const whatsappFloat = document.getElementById('whatsappFloat');
+      const navLinkItems = document.querySelectorAll('.nav-link');
+
+      // ===== NAVBAR SCROLL =====
+      function handleNavScroll() {
+        if (window.scrollY > 60) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      }
+      window.addEventListener('scroll', handleNavScroll, { passive: true });
+      handleNavScroll();
+
+      // ===== MOBILE MENU =====
+      navToggle.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navLinks.classList.toggle('open');
+        document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+      });
+
+      navLinkItems.forEach(function(link) {
+        link.addEventListener('click', function() {
+          navToggle.classList.remove('active');
+          navLinks.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+
+      // ===== INTERSECTION OBSERVER (Fade-in sections) =====
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      sections.forEach(function(section) {
+        observer.observe(section);
+      });
+
+      // ===== WHATSAPP FLOAT =====
+      // Show after scrolling past hero
+      var whatsappObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) {
+            whatsappFloat.classList.add('show');
+          } else {
+            whatsappFloat.classList.remove('show');
+          }
+        });
+      }, { threshold: 0 });
+
+      var heroSection = document.querySelector('.hero');
+      if (heroSection) {
+        whatsappObserver.observe(heroSection);
+      }
+
+      // ===== SMOOTH SCROLL FOR ANCHOR (fallback for older browsers) =====
+      document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+        anchor.addEventListener('click', function(e) {
+          var targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          var target = document.querySelector(targetId);
+          if (target) {
+            e.preventDefault();
+            var offset = navbar.offsetHeight;
+            var targetPos = target.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top: targetPos, behavior: 'smooth' });
+          }
+        });
+      });
+
+      // ===== SERVICE CARDS STAGGER =====
+      var serviceCards = document.querySelectorAll('.service-card');
+      var cardObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.transitionDelay = entry.target.dataset.delay || '0s';
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            cardObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      serviceCards.forEach(function(card, index) {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        card.dataset.delay = (index * 0.08) + 's';
+        cardObserver.observe(card);
+      });
+
+      // ===== FIREBASE INIT =====
+      var firebaseConfig = {
+        apiKey: "AIzaSyBhYMiG1x6AkvMGVnmeQpeGZrd-acgqE7Q",
+        authDomain: "randevu-3e681.firebaseapp.com",
+        projectId: "randevu-3e681",
+        storageBucket: "randevu-3e681.firebasestorage.app",
+        messagingSenderId: "984299042755",
+        appId: "1:984299042755:web:c789dc4536379bcacd2f76"
+      };
+      firebase.initializeApp(firebaseConfig);
+      var db = firebase.firestore();
+
+      // ===== APPOINTMENT MODULE =====
+      (function() {
+        // State
+        var state = {
+          services: [],
+          date: '',
+          time: '',
+          name: '',
+          surname: '',
+          phone: ''
+        };
+
+        var currentStep = 1;
+        var servicesData = [
+          { name: 'Saç Tıraşı', price: 600 },
+          { name: 'Saç + Sakal', price: 700 },
+          { name: 'Kaş Aldırma', price: 150 },
+          { name: 'Sadece Sakal', price: 200 }
+        ];
+
+        // DOM refs
+        var appServices = document.querySelectorAll('.app-service');
+        var totalEl = document.getElementById('appTotal');
+        var panels = {
+          1: document.getElementById('appStep1'),
+          2: document.getElementById('appStep2'),
+          3: document.getElementById('appStep3')
+        };
+        var steps = document.querySelectorAll('.app-step');
+        var nextBtns = document.querySelectorAll('.app-next');
+        var prevBtns = document.querySelectorAll('.app-prev');
+        var next2Btn = document.getElementById('appNext2');
+        var confirmBtn = document.getElementById('appConfirm');
+        var nameInput = document.getElementById('appName');
+        var surnameInput = document.getElementById('appSurname');
+        var phoneInput = document.getElementById('appPhone');
+        var summaryEl = document.getElementById('appSummary');
+
+        // Calendar DOM refs
+        var calGrid = document.getElementById('calGrid');
+        var calMonthLabel = document.getElementById('calMonthLabel');
+        var calPrev = document.getElementById('calPrev');
+        var calNext = document.getElementById('calNext');
+        var timesSelect = document.getElementById('appTimesSelect');
+        var timesBody = document.getElementById('appTimesBody');
+
+        // Helpers
+        function updateTotal() {
+          var total = 0;
+          appServices.forEach(function(el) {
+            if (el.classList.contains('selected')) {
+              total += parseInt(el.dataset.price);
+            }
+          });
+          totalEl.innerHTML = 'Toplam: <span>' + total + '₺</span>';
+          state.services = [];
+          appServices.forEach(function(el) {
+            if (el.classList.contains('selected')) {
+              state.services.push(el.dataset.name);
+            }
+          });
+        }
+
+        function goToStep(step) {
+          currentStep = step;
+          Object.keys(panels).forEach(function(key) {
+            panels[key].classList.toggle('hidden', parseInt(key) !== step);
+          });
+          steps.forEach(function(s) {
+            var sNum = parseInt(s.dataset.step);
+            s.classList.toggle('active', sNum === step);
+            s.classList.toggle('done', sNum < step);
+          });
+          if (step === 2) renderTimeSlots();
+          window.scrollTo({ top: document.getElementById('appointment').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        // ----- Calendar Logic -----
+        var calDate = new Date();
+        calDate.setDate(1);
+
+        function formatDateKey(year, month, day) {
+          var mm = (month + 1) < 10 ? '0' + (month + 1) : '' + (month + 1);
+          var dd = day < 10 ? '0' + day : '' + day;
+          return year + '-' + mm + '-' + dd;
+        }
+
+        function isDateInPast(year, month, day) {
+          var d = new Date(year, month, day);
+          var today = new Date();
+          today.setHours(0,0,0,0);
+          return d < today;
+        }
+
+        function renderCalendar() {
+          var year = calDate.getFullYear();
+          var month = calDate.getMonth();
+          var today = new Date();
+
+          var monthNames = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+          calMonthLabel.textContent = monthNames[month] + ' ' + year;
+
+          var firstDay = new Date(year, month, 1).getDay();
+          var daysInMonth = new Date(year, month + 1, 0).getDate();
+          var daysInPrev = new Date(year, month, 0).getDate();
+
+          // Monday-based index: 0 = Monday ... 6 = Sunday
+          var startOffset = firstDay === 0 ? 6 : firstDay - 1;
+
+          var html = '';
+
+          // Previous month days
+          for (var i = startOffset - 1; i >= 0; i--) {
+            var prevDay = daysInPrev - i;
+            html += '<button class="app-cal-day other-month" disabled>' + prevDay + '</button>';
+          }
+
+          // Current month days
+          for (var d = 1; d <= daysInMonth; d++) {
+            var isPast = isDateInPast(year, month, d);
+            var isToday = (year === today.getFullYear() && month === today.getMonth() && d === today.getDate());
+            var dateKey = formatDateKey(year, month, d);
+            var isSelected = (state.date === dateKey);
+            var cls = 'app-cal-day';
+            if (isPast) cls += ' past';
+            if (isToday) cls += ' today';
+            if (isSelected) cls += ' selected';
+
+            html += '<button class="' + cls + '" data-date="' + dateKey + '"' + (isPast ? ' disabled' : '') + '>' +
+                    '<span>' + d + '</span>' +
+                    '<span class="cal-dot"></span>' +
+                    '</button>';
+          }
+
+          // Next month days to fill grid
+          var totalCells = startOffset + daysInMonth;
+          var remaining = (7 - (totalCells % 7)) % 7;
+          for (var n = 1; n <= remaining; n++) {
+            html += '<button class="app-cal-day other-month" disabled>' + n + '</button>';
+          }
+
+          calGrid.innerHTML = html;
+
+          // Click handlers for days
+          calGrid.querySelectorAll('.app-cal-day:not(.other-month):not(.past)').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              calGrid.querySelectorAll('.app-cal-day').forEach(function(b) {
+                b.classList.remove('selected');
+              });
+              this.classList.add('selected');
+              state.date = this.dataset.date;
+              state.time = '';
+              next2Btn.disabled = true;
+              renderTimeSlots();
+            });
+          });
+
+          renderTimeSlots();
+        }
+
+        function renderTimeSlots() {
+          if (!state.date) {
+            timesSelect.innerHTML = '<option value="">Önce bir tarih seçin</option>';
+            timesSelect.disabled = true;
+            return;
+          }
+
+          timesSelect.disabled = true;
+          timesSelect.innerHTML = '<option value="">Yükleniyor...</option>';
+
+          // Fetch booked slots for this date from Firestore
+          db.collection('randevular')
+            .where('tarih', '==', state.date)
+            .get()
+            .then(function(snapshot) {
+              var booked = {};
+              snapshot.forEach(function(doc) {
+                var saat = doc.data().saat;
+                if (saat) booked[saat] = true;
+              });
+
+              var slots = [];
+              for (var h = 9; h <= 17; h++) {
+                var hStr = h < 10 ? '0' + h : '' + h;
+                var nextH = h + 1;
+                var nextStr = nextH < 10 ? '0' + nextH : '' + nextH;
+                slots.push({ value: hStr + ':00', label: hStr + '.00-' + nextStr + '.00' });
+              }
+
+              var html = '<option value="">Saat seçin</option>';
+              slots.forEach(function(slot) {
+                var isBooked = !!booked[slot.value];
+                var disabled = isBooked ? ' disabled' : '';
+                var label = isBooked ? slot.label + ' (dolu)' : slot.label;
+                var selected = (state.time === slot.value) ? ' selected' : '';
+                html += '<option value="' + slot.value + '"' + disabled + selected + '>' + label + '</option>';
+              });
+
+              timesSelect.innerHTML = html;
+              timesSelect.disabled = false;
+
+              if (state.time && booked[state.time]) {
+                state.time = '';
+                next2Btn.disabled = true;
+              }
+
+              if (state.time) {
+                next2Btn.disabled = false;
+              }
+            })
+            .catch(function(error) {
+              console.error('Saat kontrol hatası:', error);
+              timesSelect.innerHTML = '<option value="">Saatler yüklenemedi</option>';
+            });
+        }
+
+        // Select change handler
+        timesSelect.addEventListener('change', function() {
+          state.time = this.value;
+          next2Btn.disabled = !state.time;
+        });
+
+        calPrev.addEventListener('click', function() {
+          calDate.setMonth(calDate.getMonth() - 1);
+          renderCalendar();
+        });
+        calNext.addEventListener('click', function() {
+          calDate.setMonth(calDate.getMonth() + 1);
+          renderCalendar();
+        });
+
+        // Init calendar on first show
+        renderCalendar();
+
+        function validateStep1() {
+          var selected = document.querySelectorAll('.app-service.selected');
+          return selected.length > 0;
+        }
+
+        function validateStep2() {
+          return state.date && state.time;
+        }
+
+        function validateStep3() {
+          var valid = true;
+          var name = nameInput.value.trim();
+          var surname = surnameInput.value.trim();
+          var phone = phoneInput.value.trim();
+
+          document.getElementById('appNameError').textContent = '';
+          document.getElementById('appSurnameError').textContent = '';
+
+          nameInput.classList.remove('error');
+          surnameInput.classList.remove('error');
+          phoneInput.classList.remove('error');
+
+          if (!name || name.length < 2) {
+            document.getElementById('appNameError').textContent = 'Ad en az 2 karakter olmalı.';
+            nameInput.classList.add('error');
+            valid = false;
+          }
+          if (!surname || surname.length < 2) {
+            document.getElementById('appSurnameError').textContent = 'Soyad en az 2 karakter olmalı.';
+            surnameInput.classList.add('error');
+            valid = false;
+          }
+          var phoneClean = phone.replace(/\s/g, '');
+          if (!phoneClean || phoneClean.length !== 10 || !/^5\d{9}$/.test(phoneClean)) {
+            phoneInput.classList.add('error');
+            valid = false;
+          }
+
+          if (valid) {
+            state.name = name;
+            state.surname = surname;
+            state.phone = '+90' + phoneClean;
+          }
+          return valid;
+        }
+
+        function showSummary() {
+          var servicesStr = state.services.join(', ');
+          var total = 0;
+          state.services.forEach(function(svc) {
+            servicesData.forEach(function(d) {
+              if (d.name === svc) total += d.price;
+            });
+          });
+
+          summaryEl.classList.remove('hidden');
+          summaryEl.innerHTML =
+            '<div class="app-summary-row"><span class="label">Hizmet(ler)</span><span class="value">' + servicesStr + '</span></div>' +
+            '<div class="app-summary-row"><span class="label">Tutar</span><span class="value" style="color:var(--color-red)">' + total + '₺</span></div>' +
+            '<div class="app-summary-divider"></div>' +
+            '<div class="app-summary-row"><span class="label">Tarih</span><span class="value">' + state.date + '</span></div>' +
+            '<div class="app-summary-row"><span class="label">Saat</span><span class="value">' + state.time + '</span></div>' +
+            '<div class="app-summary-divider"></div>' +
+            '<div class="app-summary-row"><span class="label">Ad Soyad</span><span class="value">' + state.name + ' ' + state.surname + '</span></div>' +
+            '<div class="app-summary-row"><span class="label">Telefon</span><span class="value">' + state.phone + '</span></div>';
+        }
+
+        function saveAppointment() {
+          var total = 0;
+          state.services.forEach(function(svc) {
+            servicesData.forEach(function(d) {
+              if (d.name === svc) total += d.price;
+            });
+          });
+
+          // Final check: verify slot is still available
+          db.collection('randevular')
+            .where('tarih', '==', state.date)
+            .where('saat', '==', state.time)
+            .get()
+            .then(function(snapshot) {
+              if (!snapshot.empty) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Bu saat doldu!',
+                  text: 'Seçtiğiniz saat başka birisi tarafından alındı. Lütfen farklı bir saat seçin.',
+                  confirmButtonColor: '#C62828'
+                }).then(function() {
+                  renderTimeSlots();
+                });
+                return;
+              }
+
+              // Slot is available, save
+              db.collection('randevular').add({
+                ad: state.name,
+                soyad: state.surname,
+                telefon: state.phone,
+                tarih: state.date,
+                saat: state.time,
+                hizmetler: state.services,
+                toplamTutar: total,
+                olusturulma: new Date().toISOString(),
+                tamamlandi: false
+              }).then(function() {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Randevunuz Alındı!',
+                  html: '<span style="font-size:16px;color:#555">' +
+                        '<strong>' + state.name + ' ' + state.surname + '</strong>, randevunuz başarıyla oluşturuldu.<br><br>' +
+                        'Tarih: ' + state.date + '<br>' +
+                        'Saat: ' + state.time + '<br>' +
+                        'Hizmet: ' + state.services.join(', ') + '<br>' +
+                        'Tutar: ' + total + ' TL' +
+                        '</span>',
+                  confirmButtonText: 'Tamam',
+                  confirmButtonColor: '#C62828',
+                  background: '#fafafa',
+                  customClass: { popup: 'swal-popup' }
+                }).then(function() {
+                  window.location.reload();
+                });
+              }).catch(function(error) {
+                console.error('Firebase hatası:', error);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Hata!',
+                  text: 'Randevu kaydedilirken bir sorun oluştu. Lütfen tekrar deneyin.',
+                  confirmButtonColor: '#C62828'
+                });
+              });
+            })
+            .catch(function(error) {
+              console.error('Kontrol hatası:', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Hata!',
+                text: 'Kontrol yapılamadı. Lütfen tekrar deneyin.',
+                confirmButtonColor: '#C62828'
+              });
+            });
+        }
+
+        // ----- Event Listeners -----
+
+        // Service selection
+        appServices.forEach(function(el) {
+          el.addEventListener('click', function() {
+            var name = this.dataset.name;
+            var isMainService = (name === 'Saç Tıraşı' || name === 'Saç + Sakal' || name === 'Sadece Sakal');
+
+            if (isMainService) {
+              var isSelected = this.classList.contains('selected');
+              appServices.forEach(function(other) {
+                var oname = other.dataset.name;
+                if (oname === 'Saç Tıraşı' || oname === 'Saç + Sakal' || oname === 'Sadece Sakal') {
+                  other.classList.remove('selected');
+                }
+              });
+              if (!isSelected) {
+                this.classList.add('selected');
+              }
+            } else {
+              this.classList.toggle('selected');
+            }
+            updateTotal();
+          });
+        });
+
+        // Next buttons
+        nextBtns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var next = parseInt(this.dataset.next);
+            if (next === 2 && !validateStep1()) return;
+            if (next === 3 && !validateStep2()) return;
+            goToStep(next);
+          });
+        });
+
+        // Prev buttons
+        prevBtns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var prev = parseInt(this.dataset.prev);
+            goToStep(prev);
+          });
+        });
+
+        // Confirm
+        if (confirmBtn) {
+          confirmBtn.addEventListener('click', function() {
+            if (!validateStep3()) return;
+            saveAppointment();
+          });
+        }
+      })();
+    });
+  </script>
+</body>
+</html>
