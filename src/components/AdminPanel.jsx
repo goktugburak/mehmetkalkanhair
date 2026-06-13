@@ -390,7 +390,7 @@ const AdminPanel = ({ user }) => {
                           </button>
                         </>
                       ) : (
-                        <span style={{ color: '#555', fontSize: 13 }}>—</span>
+                        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 36, color: '#555', fontSize: 13, minWidth: 80 }}>—</span>
                       )}
                     </td>
                   </tr>
