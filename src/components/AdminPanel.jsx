@@ -5,6 +5,7 @@ import Takvim from './Takvim'
 
 const STATUS_MAP = {
   bekliyor: { label: 'Bekliyor', color: '#f59e0b' },
+  onaylandı: { label: 'Onaylandı', color: '#22c55e' },
   tamamlandi: { label: 'Tamamlandı', color: '#22c55e' },
   'iptal edildi': { label: 'İptal Edildi', color: '#E53935' },
 }
@@ -353,38 +354,44 @@ const AdminPanel = ({ user }) => {
                       </span>
                     </td>
                     <td style={{ ...td, display: 'flex', gap: 8 }}>
-                      <button
-                        onClick={() => handleStatusUpdate(a.id, 'tamamlandi')}
-                        disabled={updating === a.id || a.status === 'tamamlandi'}
-                        style={{
-                          ...actionBtn,
-                          ...(a.status === 'tamamlandi' ? actionActiveGreen : {}),
-                          opacity: updating === a.id ? 0.5 : 1,
-                        }}
-                      >
-                        {updating === a.id ? (
-                          <i className="fa-solid fa-spinner fa-spin"></i>
-                        ) : (
-                          <i className="fa-solid fa-check"></i>
-                        )}
-                        Tamamlandı
-                      </button>
-                      <button
-                        onClick={() => handleStatusUpdate(a.id, 'iptal edildi')}
-                        disabled={updating === a.id || a.status === 'iptal edildi'}
-                        style={{
-                          ...actionBtn,
-                          ...(a.status === 'iptal edildi' ? actionActiveRed : {}),
-                          opacity: updating === a.id ? 0.5 : 1,
-                        }}
-                      >
-                        {updating === a.id ? (
-                          <i className="fa-solid fa-spinner fa-spin"></i>
-                        ) : (
-                          <i className="fa-solid fa-xmark"></i>
-                        )}
-                        İptal Et
-                      </button>
+                      {a.status === 'bekliyor' || a.status === 'onaylandı' ? (
+                        <>
+                          <button
+                            onClick={() => handleStatusUpdate(a.id, 'tamamlandi')}
+                            disabled={updating === a.id || a.status === 'tamamlandi'}
+                            style={{
+                              ...actionBtn,
+                              ...(a.status === 'tamamlandi' ? actionActiveGreen : {}),
+                              opacity: updating === a.id ? 0.5 : 1,
+                            }}
+                          >
+                            {updating === a.id ? (
+                              <i className="fa-solid fa-spinner fa-spin"></i>
+                            ) : (
+                              <i className="fa-solid fa-check"></i>
+                            )}
+                            Tamamlandı
+                          </button>
+                          <button
+                            onClick={() => handleStatusUpdate(a.id, 'iptal edildi')}
+                            disabled={updating === a.id || a.status === 'iptal edildi'}
+                            style={{
+                              ...actionBtn,
+                              ...(a.status === 'iptal edildi' ? actionActiveRed : {}),
+                              opacity: updating === a.id ? 0.5 : 1,
+                            }}
+                          >
+                            {updating === a.id ? (
+                              <i className="fa-solid fa-spinner fa-spin"></i>
+                            ) : (
+                              <i className="fa-solid fa-xmark"></i>
+                            )}
+                            İptal Et
+                          </button>
+                        </>
+                      ) : (
+                        <span style={{ color: '#555', fontSize: 13 }}>—</span>
+                      )}
                     </td>
                   </tr>
                 )
